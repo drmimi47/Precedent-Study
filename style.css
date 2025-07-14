@@ -5,6 +5,19 @@ body {
   padding: 0;
 }
 
+.site-header {
+  text-align: center;
+  margin: 2em auto 0 auto;
+  max-width: 1100px;
+}
+
+.site-header h1 {
+  font-size: 2.5em;
+  color: #222;
+  margin: 0;
+  font-weight: normal;
+}
+
 main.table-container {
   display: flex;
   justify-content: center;
@@ -17,6 +30,7 @@ main.table-container {
   font-size: 1.1em;
   background: #fafafa;
   box-shadow: 0 2px 8px #0001;
+  width: 1100px; /* Added fixed width to match sections */
 }
 
 .main-table th,
@@ -30,7 +44,7 @@ main.table-container {
 }
 
 .section-info {
-  max-width: 700px;
+  max-width: 1100px; /* Changed from 700px to match widest section */
   margin: 2em auto 0 auto;
   font-size: 1.05em;
   background: #f5f5f5;
@@ -41,17 +55,22 @@ main.table-container {
 }
 
 .section-info.wide {
-  max-width: 900px;
+  max-width: 1100px; /* Changed from 900px to match */
 }
 
 .section-info.wider {
-  max-width: 1100px;
+  max-width: 1100px; /* Kept the same */
 }
 
 .section-info h2 {
   margin-top: 0;
   font-size: 1.2em;
   color: #222;
+}
+
+/* Target only the first h2 in the first section (What is HAQUE TAN) */
+.section-info:first-of-type h2:first-of-type {
+  font-size: 2.25em;
 }
 
 .section-info a {
@@ -85,4 +104,17 @@ main.table-container {
   color: #1976d2;
   text-decoration: underline;
   word-break: break-word;
+}
+
+.site-footer {
+  text-align: center;
+  margin: 3em auto 2em auto;
+  max-width: 1100px;
+}
+
+.site-footer p {
+  font-size: 1.1em;
+  color: #666;
+  margin: 0;
+  font-weight: bold;
 }
