@@ -157,20 +157,20 @@ main.table-container {
 
 /* Style for the Photo Gallery button */
 #openModalBtn {
-  background-color: yellow;
-  color: black;
+  background-color: #FFD600;
+  color: rgb(0, 0, 0);
   font-size: 18px;
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   display: block;
-  margin: 100px auto; /* centers horizontally and adds vertical space */
+  margin: 25px auto; /* centers horizontally and adds vertical space */
 }
 
 /* Optional hover effect */
 #openModalBtn:hover {
-  background-color: #f5d300;
+  background-color: #FFD600;
 }
 
 /* Modal background */
@@ -201,7 +201,7 @@ main.table-container {
   position: absolute;
   top: 20px;
   right: 35px;
-  color: white;
+  color: #FFD600;
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
@@ -215,7 +215,7 @@ main.table-container {
 
 /* Navigation buttons */
 .nav-buttons button {
-  background-color: #fff;
+  background-color: #FFD600;
   border: none;
   padding: 8px 16px;
   margin: 0 5px;
