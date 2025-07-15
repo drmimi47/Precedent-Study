@@ -155,6 +155,17 @@ main.table-container {
   font-weight: bold;
 }
 
+#bee {
+  position: fixed;
+  font-size: 24px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: none;
+  user-select: none;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
 /* Style for the Photo Gallery button */
 #openModalBtn {
   background-color: #FFD600;

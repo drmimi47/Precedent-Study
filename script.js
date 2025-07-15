@@ -170,3 +170,104 @@ openModalBtn.addEventListener("click", () => {
   modal.style.display = "block";
   showImage(currentIndex);
 });
+
+// Bee cursor follower with flying behavior
+let bee = document.getElementById('bee');
+let mouseX = 0;
+let mouseY = 0;
+let beeX = 0;
+let beeY = 0;
+let isFlying = false;
+let flyingTimer;
+let flyingInterval;
+
+// Flying animation variables
+let flyTargetX = 0;
+let flyTargetY = 0;
+let flySpeed = 0.02;
+
+document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Stop flying when user moves mouse
+    if (isFlying) {
+        isFlying = false;
+        clearInterval(flyingInterval);
+    }
+    
+    // Reset the flying timer
+    clearTimeout(flyingTimer);
+    flyingTimer = setTimeout(startFlying, 5000); // 5 seconds
+});
+
+function startFlying() {
+    isFlying = true;
+    setNewFlyTarget();
+    
+    flyingInterval = setInterval(function() {
+        setNewFlyTarget();
+    }, 3000); // Change direction every 3 seconds
+}
+
+function setNewFlyTarget() {
+    // Pick a random point on screen
+    flyTargetX = Math.random() * (window.innerWidth - 100) + 50;
+    flyTargetY = Math.random() * (window.innerHeight - 100) + 50;
+}
+
+function animateBee() {
+    let deltaX, deltaY;
+    
+    if (isFlying) {
+        // Flying behavior - move towards random target
+        deltaX = flyTargetX - beeX;
+        deltaY = flyTargetY - beeY;
+        
+        beeX += deltaX * flySpeed;
+        beeY += deltaY * flySpeed;
+        
+        // Add slight wobble for more natural flying
+        beeX += Math.sin(Date.now() * 0.01) * 0.5;
+        beeY += Math.cos(Date.now() * 0.008) * 0.3;
+    } else {
+        // Normal cursor following behavior
+        deltaX = mouseX - beeX;
+        deltaY = mouseY - beeY;
+        
+        beeX += deltaX * 0.1;
+        beeY += deltaY * 0.1;
+    }
+    
+    bee.style.left = beeX + 'px';
+    bee.style.top = beeY + 'px';
+    
+    // Flip bee based on movement direction
+    if (deltaX > 0) {
+        bee.style.transform = 'translate(-50%, -50%) scaleX(1)';
+    } else {
+        bee.style.transform = 'translate(-50%, -50%) scaleX(-1)';
+    }
+    
+    requestAnimationFrame(animateBee);
+}
+
+function initializeBee() {
+    beeX = window.innerWidth / 2;
+    beeY = window.innerHeight / 2;
+    mouseX = beeX;
+    mouseY = beeY;
+    
+    // Start flying timer
+    flyingTimer = setTimeout(startFlying, 5000);
+    
+    animateBee();
+}
+
+window.addEventListener('load', initializeBee);
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    beeX = Math.min(beeX, window.innerWidth);
+    beeY = Math.min(beeY, window.innerHeight);
+});
