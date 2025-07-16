@@ -9,13 +9,46 @@ body {
   text-align: center;
   margin: 2em auto 0 auto;
   max-width: 750px;
+
 }
 
-.site-header h1 {
-  font-size: 2.5em;
+.downward-triangle {
+  width: 0;
+  height: 0;
+  border-left: 375px solid transparent;  /* Half of 750px */
+  border-right: 375px solid transparent;
+  border-top: 40px solid #dbdbdb; /* Triangle color (light gray to match border) */
+  margin: 2em auto;
+}
+
+h1 {
+  font-size: 1.9em;
+  font-weight: bold;
+  margin-top: 0;
   color: #222;
-  margin: 0;
-  font-weight: normal;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0;
+  color: #222;
+}
+
+h3 {
+  font-size: 1.35em;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+h4 {
+  font-size: 2.6em;
+  font-weight: bolder;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #222;
 }
 
 main.table-container {
@@ -60,17 +93,6 @@ main.table-container {
 
 .section-info.wider {
   max-width: 750px; /* Kept the same */
-}
-
-.section-info h2 {
-  margin-top: 0;
-  font-size: 1.2em;
-  color: #222;
-}
-
-/* Target only the first h2 in the first section (What is HAQUE TAN) */
-.section-info:first-of-type h2:first-of-type {
-  font-size: 2.25em;
 }
 
 .section-info a {
