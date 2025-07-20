@@ -1,3 +1,26 @@
+.indented-bullets {
+  list-style: none; /* remove default bullets */
+  padding-left: 1.5em;
+}
+
+.indented-bullets li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+/* Create a custom square bullet */
+.indented-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em; /* vertically centers the square */
+  width: 0.6em;  /* adjust this for bullet size */
+  height: 0.6em; /* adjust this for bullet size */
+  background-color: black; /* or any color you want */
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -66,6 +89,13 @@ html, body {
     line-height: 1.1; /* Default is usually 1.2-1.4, so 0.8 brings lines closer */
 
 }
+
+.fullscreen-text sup {
+  font-size: 0.25em;         /* adjust to make it smaller */
+  vertical-align: top;      /* moves it up like a true superscript */
+  margin-left: 0.2em;       /* optional spacing from preceding text */
+}
+
 
 body {
   font-family: monospace;
