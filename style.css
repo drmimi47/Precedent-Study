@@ -279,30 +279,29 @@ main.table-container {
   filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
 }
 
-/* Style for the Photo Gallery button - CIRCULAR VERSION */
-#openModalBtn {
+/* Style for Photo Gallery buttons - CIRCULAR VERSION */
+.open-modal-btn {
   background-color: #FFD600;
   color: rgb(0, 0, 0);
   font-size: 18px;
-  padding: 20px; /* Equal padding for circular shape */
+  padding: 20px;
   border: none;
-  border-radius: 50%; /* Makes it circular */
+  border-radius: 50%;
   cursor: pointer;
-  display: block;
-  margin: 25px auto; /* centers horizontally and adds vertical space */
-  width: 100px; /* Fixed width */
-  height: 100px; /* Fixed height equal to width */
-  text-align: center; /* Center text horizontally */
-  line-height: 1; /* Adjust line height for better vertical centering */
-  display: flex; /* Use flexbox for perfect centering */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 25px auto;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 1;
 }
 
-/* Optional hover effect */
-#openModalBtn:hover {
+.open-modal-btn:hover {
   background-color: #FFD600;
 }
+
 
 /* Modal background */
 .modal {

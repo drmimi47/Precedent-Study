@@ -121,55 +121,72 @@ grid.addEventListener('mouseleave', function() {
   coordinateTooltip.style.display = 'none';
 });
 
-// Image sources
-const images = [
+// ----- Modal 1 Setup -----
+
+const images1 = [
   'images/photo1.jpg',
   'images/photo2.jpg',
   'images/photo3.jpg',
   'images/photo4.jpg'
 ];
+let currentIndex1 = 0;
 
-let currentIndex = 0;
+const modal1 = document.getElementById("imageModal");
+const modalImg1 = document.getElementById("modalImg");
+const openModalBtn1 = document.getElementById("openModalBtn");
+const closeModalBtn1 = modal1.querySelector(".close");
+const prevBtn1 = document.getElementById("prevBtn");
+const nextBtn1 = document.getElementById("nextBtn");
 
-const modal = document.getElementById("imageModal");
-const modalImg = document.getElementById("modalImg");
-const openModalBtn = document.getElementById("openModalBtn");
-const closeModalBtn = document.querySelector(".close");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-
-// Open modal and show first image
-openModalBtn.addEventListener("click", () => {
-  modal.style.display = "block";
-  showImage(currentIndex);
-});
-
-// Close modal
-closeModalBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-// Show previous image
-prevBtn.addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  showImage(currentIndex);
-});
-
-// Show next image
-nextBtn.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % images.length;
-  showImage(currentIndex);
-});
-
-function showImage(index) {
-  modalImg.src = images[index];
+function showImage1(index) {
+  modalImg1.src = images1[index];
 }
 
-openModalBtn.addEventListener("click", () => {
-  console.log('Open modal clicked');
-  modal.style.display = "block";
-  showImage(currentIndex);
+openModalBtn1.addEventListener("click", () => {
+  console.log('Modal 1 open button clicked');
+  modal1.style.display = "block";
+  showImage1(currentIndex1);
 });
+
+closeModalBtn1.addEventListener("click", () => {
+  modal1.style.display = "none";
+});
+
+prevBtn1.addEventListener("click", () => {
+  currentIndex1 = (currentIndex1 - 1 + images1.length) % images1.length;
+  showImage1(currentIndex1);
+});
+
+nextBtn1.addEventListener("click", () => {
+  currentIndex1 = (currentIndex1 + 1) % images1.length;
+  showImage1(currentIndex1);
+});
+
+
+// ----- Modal 2 Setup -----
+
+const singleImage2 = 'images/photoone.jpg';
+
+const modal2 = document.getElementById("imageModal2");
+const modalImg2 = document.getElementById("modalImg2");
+const openModalBtn2 = document.getElementById("openModalBtn2");
+const closeModalBtn2 = modal2.querySelector(".close2");
+const prevBtn2 = document.getElementById("prevBtn2");
+const nextBtn2 = document.getElementById("nextBtn2");
+
+openModalBtn2.addEventListener("click", () => {
+  console.log('Modal 2 open button clicked');
+  modal2.style.display = "block";
+  modalImg2.src = singleImage2;
+});
+
+closeModalBtn2.addEventListener("click", () => {
+  modal2.style.display = "none";
+});
+
+// Disable prev/next buttons since only one image
+prevBtn2.disabled = true;
+nextBtn2.disabled = true;
 
 // Bee cursor follower with flying behavior
 let bee = document.getElementById('bee');
