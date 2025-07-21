@@ -288,3 +288,338 @@ window.addEventListener('resize', function() {
     beeX = Math.min(beeX, window.innerWidth);
     beeY = Math.min(beeY, window.innerHeight);
 });
+
+
+// Growing Riversiders D3.js Visualization - Modular Version
+// This script is self-contained and won't interfere with existing website code
+
+(function() {
+    'use strict';
+    
+    // Check if D3 is available
+    if (typeof d3 === 'undefined') {
+        console.error('Growing Riversiders Visualization: D3.js is required. Please include D3.js v7 before this script.');
+        return;
+    }
+    
+    // Check if container exists
+    if (!document.getElementById('growing-riversiders-container')) {
+        console.error('Growing Riversiders Visualization: Container element not found. Please include the HTML container.');
+        return;
+    }
+    
+    class GrowingRiversidersViz {
+        constructor() {
+            this.plantTypes = ['Sunflower', 'Marigold', 'Cosmos', 'Zinnia'];
+            this.plantColors = {
+                'Sunflower': '#f1c40f',
+                'Marigold': '#e67e22',
+                'Cosmos': '#e91e63',
+                'Zinnia': '#9b59b6'
+            };
+            
+            this.currentMode = 'plant-types';
+            this.gridSize = 20;
+            this.pixelSize = 15;
+            
+            this.familyNames = [
+                'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 
+                'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson',
+                'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin', 'Lee', 'Perez', 'Thompson',
+                'White', 'Harris', 'Sanchez', 'Clark', 'Ramirez', 'Lewis', 'Robinson',
+                'Walker', 'Young', 'Allen', 'King', 'Wright', 'Scott', 'Torres', 'Nguyen',
+                'Hill', 'Flores', 'Green', 'Adams', 'Nelson', 'Baker', 'Hall', 'Rivera',
+                'Campbell', 'Mitchell', 'Carter', 'Roberts', 'Gomez', 'Phillips', 'Evans',
+                'Turner', 'Diaz', 'Parker', 'Cruz', 'Edwards', 'Collins', 'Reyes',
+                'Stewart', 'Morris', 'Morales', 'Murphy', 'Cook', 'Rogers', 'Gutierrez',
+                'Ortiz', 'Morgan', 'Cooper', 'Peterson', 'Bailey', 'Reed', 'Kelly',
+                'Howard', 'Ramos', 'Kim', 'Cox', 'Ward', 'Richardson', 'Watson',
+                'Brooks', 'Chavez', 'Wood', 'James', 'Bennett', 'Gray', 'Mendoza',
+                'Ruiz', 'Hughes', 'Price', 'Alvarez', 'Castillo', 'Sanders', 'Patel',
+                'Myers', 'Long', 'Ross', 'Foster', 'Jimenez'
+            ];
+            
+            this.generateData();
+            this.init();
+        }
+        
+        generateData() {
+            this.gridData = [];
+            this.timelineData = [];
+            
+            
+            // Generate grid data
+            for (let row = 0; row < this.gridSize; row++) {
+                for (let col = 0; col < this.gridSize; col++) {
+                    const index = row * this.gridSize + col;
+                    
+                    this.gridData.push({
+                        id: `plant_${index}`,
+                        row: row,
+                        col: col,
+                        index: index,
+                        plantType: this.plantTypes[Math.floor(Math.random() * this.plantTypes.length)],
+                        family: this.familyNames[Math.floor(Math.random() * this.familyNames.length)],
+                        finalHeight: Math.floor(Math.random() * 80) + 20, // 20-100cm
+                        survived: Math.random() > 0.08, // 92% survival rate
+                        photosShared: Math.floor(Math.random() * 15) + 1,
+                        messages: Math.floor(Math.random() * 8) + 1,
+                        weeklyGrowth: this.generateWeeklyGrowth()
+                    });
+                }
+            }
+            
+            // Generate timeline data (6 weeks)
+            for (let week = 1; week <= 6; week++) {
+                const averageHeight = this.gridData.reduce((sum, plant) => 
+                    sum + plant.weeklyGrowth[week - 1], 0) / this.gridData.length;
+                
+                const totalPhotos = this.gridData.reduce((sum, plant) => 
+                    sum + Math.floor(plant.photosShared * (week / 6)), 0);
+                
+                const platformInteractions = Math.floor(100 + (week * 50) + Math.random() * 100);
+                
+                this.timelineData.push({
+                    week: week,
+                    averageHeight: Math.round(averageHeight * 10) / 10,
+                    totalPhotos: totalPhotos,
+                    platformInteractions: platformInteractions,
+                    participatingFamilies: Math.min(100, Math.floor(80 + (week * 3)))
+                });
+            }
+        }
+        
+        generateWeeklyGrowth() {
+            const growth = [];
+            let currentHeight = 0;
+            for (let week = 0; week < 6; week++) {
+                const weekGrowth = Math.random() * 15 + 5; // 5-20cm per week
+                currentHeight += weekGrowth;
+                growth.push(Math.round(currentHeight * 10) / 10);
+            }
+            return growth;
+        }
+        
+        init() {
+            this.createGrid();
+            this.createTimeline();
+            this.setupControls();
+            this.updateLegend();
+            this.updateVisualization();
+        }
+        
+        createGrid() {
+            const container = d3.select('#gr-pixel-grid');
+            const containerWidth = container.node().getBoundingClientRect().width;
+            const maxGridWidth = Math.min(containerWidth - 40, 400);
+            
+            this.pixelSize = Math.floor(maxGridWidth / this.gridSize);
+            
+            const svg = container.append('svg')
+                .attr('width', this.gridSize * this.pixelSize)
+                .attr('height', this.gridSize * this.pixelSize)
+                .style('display', 'block')
+                .style('margin', '0 auto');
+            
+            this.gridSvg = svg;
+            
+            // Create grid pixels
+            this.pixels = svg.selectAll('.gr-pixel')
+                .data(this.gridData)
+                .enter()
+                .append('rect')
+                .attr('class', 'gr-pixel')
+                .attr('x', d => d.col * this.pixelSize)
+                .attr('y', d => d.row * this.pixelSize)
+                .attr('width', this.pixelSize - 1)
+                .attr('height', this.pixelSize - 1);
+        }
+        
+        createTimeline() {
+            const container = d3.select('#gr-timeline-chart');
+            const margin = {top: 20, right: 80, bottom: 50, left: 60};
+            const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
+            const height = 300 - margin.top - margin.bottom;
+            
+            const svg = container.append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom);
+            
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+            
+            // Scales
+            const xScale = d3.scaleLinear()
+                .domain([1, 6])
+                .range([0, width]);
+            
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(this.timelineData, d => d.averageHeight) * 1.1])
+                .range([height, 0]);
+            
+            const yScalePhotos = d3.scaleLinear()
+                .domain([0, d3.max(this.timelineData, d => d.totalPhotos) * 1.1])
+                .range([height, 0]);
+            
+            // Lines
+            const heightLine = d3.line()
+                .x(d => xScale(d.week))
+                .y(d => yScale(d.averageHeight))
+                .curve(d3.curveMonotoneX);
+            
+            const photosLine = d3.line()
+                .x(d => xScale(d.week))
+                .y(d => yScalePhotos(d.totalPhotos))
+                .curve(d3.curveMonotoneX);
+            
+            // Add axes
+            g.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(xScale).tickFormat(d => `Week ${d}`));
+            
+            g.append('g')
+                .call(d3.axisLeft(yScale));
+            
+            g.append('g')
+                .attr('transform', `translate(${width},0)`)
+                .call(d3.axisRight(yScalePhotos))
+                .style('color', '#e67e22');
+            
+            // Add lines
+            g.append('path')
+                .datum(this.timelineData)
+                .attr('fill', 'none')
+                .attr('stroke', '#27ae60')
+                .attr('stroke-width', 3)
+                .attr('d', heightLine);
+            
+            g.append('path')
+                .datum(this.timelineData)
+                .attr('fill', 'none')
+                .attr('stroke', '#e67e22')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5')
+                .attr('d', photosLine);
+            
+            // Add data points
+            g.selectAll('.gr-height-point')
+                .data(this.timelineData)
+                .enter()
+                .append('circle')
+                .attr('class', 'gr-height-point')
+                .attr('cx', d => xScale(d.week))
+                .attr('cy', d => yScale(d.averageHeight))
+                .attr('r', 4)
+                .attr('fill', '#27ae60');
+            
+            // Labels
+            g.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', 0 - margin.left)
+                .attr('x', 0 - (height / 2))
+                .attr('dy', '1em')
+                .style('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .text('Average Plant Height (cm)');
+            
+            g.append('text')
+                .attr('transform', `translate(${width + 40}, ${height / 2}) rotate(-90)`)
+                .style('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('fill', '#e67e22')
+                .text('Photos Shared');
+            
+            g.append('text')
+                .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
+                .style('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .text('Project Timeline');
+        }
+        
+        setupControls() {
+            // Use scoped selectors to avoid conflicts
+            d3.select('#growing-riversiders-container').selectAll('.gr-btn').on('click', (event) => {
+                d3.select('#growing-riversiders-container').selectAll('.gr-btn').classed('gr-active', false);
+                d3.select(event.target).classed('gr-active', true);
+                
+                this.currentMode = event.target.dataset.mode;
+                this.updateLegend();
+                this.updateVisualization();
+            });
+        }
+        
+        updateLegend() {
+            const legend = d3.select('#gr-legend');
+            legend.selectAll('*').remove();
+            
+            let legendItems = [];
+            
+            switch (this.currentMode) {
+                case 'plant-types':
+                    legendItems = this.plantTypes.map(type => ({
+                        color: this.plantColors[type],
+                        label: type
+                    }));
+                    break;
+                case 'growth-stages':
+                    legendItems = [
+                        { color: '#e74c3c', label: 'Low Growth (< 40cm)' },
+                        { color: '#f39c12', label: 'Medium Growth (40-70cm)' },
+                        { color: '#27ae60', label: 'High Growth (> 70cm)' }
+                    ];
+                    break;
+            }
+            
+            const legendContainer = legend.selectAll('.gr-legend-item')
+                .data(legendItems)
+                .enter()
+                .append('div')
+                .attr('class', 'gr-legend-item');
+            
+            legendContainer.append('div')
+                .attr('class', 'gr-legend-color')
+                .style('background-color', d => d.color);
+            
+            legendContainer.append('span')
+                .text(d => d.label);
+        }
+        
+        updateVisualization() {
+            this.pixels.transition()
+                .duration(500)
+                .attr('fill', d => this.getPixelColor(d))
+                .attr('opacity', d => this.getPixelOpacity(d));
+        }
+        
+        getPixelColor(d) {
+            switch (this.currentMode) {
+                case 'plant-types':
+                    return this.plantColors[d.plantType];
+                case 'growth-stages':
+                    if (d.finalHeight < 40) return '#e74c3c';
+                    if (d.finalHeight < 70) return '#f39c12';
+                    return '#27ae60';
+                default:
+                    return '#3498db';
+            }
+        }
+        
+        getPixelOpacity(d) {
+            return d.survived ? 1 : 0.3;
+        }
+    }
+    
+    // Initialize when DOM is ready or immediately if already ready
+    function initVisualization() {
+        if (typeof window.growingRiversidersViz === 'undefined') {
+            window.growingRiversidersViz = new GrowingRiversidersViz();
+        }
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initVisualization);
+    } else {
+        initVisualization();
+    }
+    
+})();
