@@ -544,6 +544,67 @@
     <h2>Actor-Network Theory</h2>
   </section>
 
+
+
+
+
+    <!-- D3 Visualization Container -->
+    <div id="d3-container-3" style="width: 100%; max-width: 750px; margin: 2em auto 0 auto; border: 1px solid #ccc; border-radius: 6px; background: #fafafa; height: 600px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div id="network-controls" style="position: absolute; top: 12px; left: 12px; z-index: 1000; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onclick="resetZoom()" style="background-color: #FFD600; color: #333; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: monospace; font-weight: bold;">Reset View</button>
+            <button onclick="centerGraph()" style="background-color: #FFD600; color: #333; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: monospace; font-weight: bold;">Center</button>
+            <button onclick="toggleLabels()" style="background-color: #FFD600; color: #333; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: monospace; font-weight: bold;">Toggle Labels</button>
+            <button onclick="toggleAnimation()" style="background-color: #FFD600; color: #333; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: monospace; font-weight: bold;">Pause/Play</button>
+        </div>
+        <div style="position: absolute; bottom: 12px; left: 12px; font-size: 11px; color: #666; background: rgba(255, 255, 255, 0.9); padding: 6px 10px; border-radius: 4px; font-family: monospace; border: 1px solid #ddd;">
+            Mouse wheel: zoom | Drag: pan | Drag nodes: reposition
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div id="network-legend" style="max-width: 750px; margin: 2em auto 0 auto; padding: 1.5em; background: #f5f5f5; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 1.05em;">
+        <h3 style="margin-top: 0; margin-bottom: 1rem; color: #444; font-size: 1.35em; font-weight: bold; font-family: monospace;">Network Legend</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #ff6b6b; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Organizations & Studios</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #4ecdc4; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">People & Leaders</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #45b7d1; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Projects & Platforms</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #96ceb4; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Physical Elements</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #feca57; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Documentation & Archives</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #ff9ff3; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Community & Experts</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #54a0ff; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Venues & Locations</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px;">
+                <div style="width: 14px; height: 14px; border-radius: 3px; border: 1px solid #ccc; background: #5f27cd; flex-shrink: 0;"></div>
+                <span style="font-size: 13px; color: #333; font-family: monospace;">Artifacts & Outputs</span>
+            </div>
+        </div>
+    </div>
+  
+
+
+
+
+
   <section class="section-info">
     <h1>Rhetorical Analysis</h1>
     <br>
@@ -609,14 +670,18 @@
     }
   </style>
 
-
-
-
   <section class="section-info">
     <h1>Conclusion</h1>
     <br>
     <p>Growing Riversiders is a strong example of participatory urban art that thoughtfully connects digital concepts with real-world community making. Its innovative approach and results are notable, though future projects could address scalability and accessibility to maximize impact.</p>
   </section>
+
+
+
+
+
+
+
 
 
 <header class="site-header">
@@ -629,6 +694,7 @@
   </footer>
 
   <script src="script.js"></script>
-  
+  <script src="growing-riversiders-network.js"></script>
+
 </body>
 </html>
